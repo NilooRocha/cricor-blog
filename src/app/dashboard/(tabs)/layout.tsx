@@ -1,6 +1,7 @@
 
 
 import SubPageLayout from "@/components/sub-page-layout";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Metadata } from "next";
 
 
@@ -19,8 +20,14 @@ export default function Layout({
   return (
     <>
       <SubPageLayout>
-        {children}
+        <Card>
+          <CardContent>
+            {children}
+          </CardContent>
+        </Card>
       </SubPageLayout>
     </>
   )
 }
+
+

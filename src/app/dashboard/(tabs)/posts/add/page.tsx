@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
-export default function Create() {
+export default function Add() {
 
     return (
         <>
@@ -31,6 +31,7 @@ export default function Create() {
                     <Button>Save</Button>
                 </CardFooter>
             </Card>
+
 
         </>
     )

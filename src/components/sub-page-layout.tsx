@@ -11,6 +11,7 @@ interface SubTab {
 
 interface Tab {
     title: string;
+    subtitle: string;
     path: string;
     subTabs: SubTab[];
 }
@@ -19,9 +20,10 @@ const tabs: Tab[] = [
 
     {
         title: "Posts",
+        subtitle: "Manage your Posts and view their  performance.",
         path: "/dashboard/posts",
         subTabs: [
-            { path: "/dashboard/posts/create", title: "Create Post" },
+            { path: "/dashboard/posts/add", title: "Add New Post" },
             { path: "/dashboard/posts/list", title: "Post List" },
             { path: "/dashboard/posts/drafts", title: "Drafts" },
             { path: "/dashboard/posts/scheduled", title: "Scheduled Posts" },
@@ -30,6 +32,7 @@ const tabs: Tab[] = [
     },
     {
         title: "Settings",
+        subtitle: "Manage your Settings",
         path: "/dashboard/settings",
         subTabs: [
             { path: "/dashboard/settings/general", title: "General Settings" },
@@ -39,6 +42,7 @@ const tabs: Tab[] = [
     },
     {
         title: "Analytics",
+        subtitle: "Manage your Analytics",
         path: "/dashboard/analytics",
         subTabs: [
             { path: "/dashboard/analytics/traffic", title: "Traffic Overview" },
@@ -48,6 +52,7 @@ const tabs: Tab[] = [
     },
     {
         title: "Support",
+        subtitle: "Contact us to help",
         path: "/dashboard/support",
         subTabs: [
             { path: "/dashboard/support/help", title: "Help Center" },
@@ -70,7 +75,9 @@ export default function SubPageLayout({
     return (
         <>
             <div className="mx-auto grid w-full max-w-6xl gap-2">
+                <p className="text-sm text-muted-foreground md:hidden block" >{activeTab?.subtitle}</p>
                 <h1 className="text-3xl font-semibold">{activeTab?.title}</h1>
+                <p className="text-sm text-muted-foreground hidden md:block" >{activeTab?.subtitle}</p>
             </div>
             <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
                 <nav className="grid gap-4 text-sm text-muted-foreground">
