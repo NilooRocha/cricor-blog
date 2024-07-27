@@ -58,8 +58,4 @@
     body {
       @apply bg-background text-foreground;
     }
-    h1 {
-      @apply text-3xl lg:text-5xl;
-    }
-
   }
