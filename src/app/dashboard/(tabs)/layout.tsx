@@ -20,11 +20,13 @@ export default function Layout({
   return (
     <>
       <SubPageLayout>
-        <Card>
-          <CardContent>
-            {children}
-          </CardContent>
-        </Card>
+        <div className="flex justify-center items-center h-full min-h-screen">
+          <Card className="w-full max-w-4xl h-full flex flex-col rounded-lg">
+            <CardContent className=" flex flex-col p-6 h-full overflow-auto">
+              {children}
+            </CardContent>
+          </Card>
+        </div>
       </SubPageLayout>
     </>
   )

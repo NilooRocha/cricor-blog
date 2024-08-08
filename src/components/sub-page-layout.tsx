@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
@@ -17,10 +17,9 @@ interface Tab {
 }
 
 const tabs: Tab[] = [
-
     {
         title: "Posts",
-        subtitle: "Manage your Posts and view their  performance.",
+        subtitle: "Manage your Posts and view their performance.",
         path: "/dashboard/posts",
         subTabs: [
             { path: "/dashboard/posts/add", title: "Add New Post" },
@@ -61,34 +60,26 @@ const tabs: Tab[] = [
     }
 ];
 
-export default function SubPageLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-
-    const pathname = usePathname()
-
+export default function SubPageLayout({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
     const activeTab = tabs.find(tab => pathname.startsWith(tab.path));
-
 
     return (
         <>
-            <div className="mx-auto grid w-full max-w-6xl gap-2">
-                <p className="text-sm text-muted-foreground md:hidden block" >{activeTab?.subtitle}</p>
+            <div className="mx-auto grid w-full max-w-6xl gap-2   ">
+                <p className="text-sm text-muted-foreground md:hidden block">{activeTab?.subtitle}</p>
                 <h1 className="text-3xl font-semibold">{activeTab?.title}</h1>
-                <p className="text-sm text-muted-foreground hidden md:block" >{activeTab?.subtitle}</p>
+                <p className="text-sm text-muted-foreground hidden md:block">{activeTab?.subtitle}</p>
             </div>
             <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-                <nav className="grid gap-4 text-sm text-muted-foreground">
+                <nav className="grid gap-4 text-sm text-muted-foreground md:sticky md:top-[calc(theme(spacing.16)+1px)] ">
                     {activeTab && activeTab.subTabs.map(subTab => (
                         <Link key={subTab.path} href={subTab.path} className={subTab.path === pathname ? "font-semibold text-primary" : ""}>
                             {subTab.title}
                         </Link>
-
                     ))}
                 </nav>
-                <div className="grid gap-6">
+                <div className="grid gap-6 flex-1">
                     {children}
                 </div>
             </div>
