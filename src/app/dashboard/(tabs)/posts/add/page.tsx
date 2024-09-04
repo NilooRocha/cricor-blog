@@ -10,15 +10,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Editor as NovelEditor } from "novel";
 import { Button } from "@/components/ui/button";
+import { Editor } from "@/components/editor";
+import { MinimalTiptapEditor } from "@/components/minimal-tiptap";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
     title: z.string().min(2, {
         message: "Title must be at least 2 characters.",
     }),
     description: z.string(),
-    content: z.string(),
+    content: z.string().min(1, "Content is required"),
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
     slug: z.string().optional(),
@@ -43,11 +45,10 @@ export default function Add() {
             ogImage: ``,
             ogTitle: ``,
             ogDescription: ``,
-            robots: `index, follow`
+            robots: ``
         },
     });
-
-    const { setValue, register, handleSubmit } = form;
+    const { handleSubmit } = form;
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
@@ -58,31 +59,29 @@ export default function Add() {
     useAutosizeTextArea({
         textAreaRef: textAreaRef?.current,
         triggerAutoSize: triggerAutoSize,
-        minHeight: 14,
+        minHeight: 25,
         maxHeight: 200,
     });
 
-    const bio = form.watch('description');
+    const description = form.watch('description');
     useEffect(() => {
         if (textAreaRef.current) {
-            setTriggerAutoSize(bio);
+            setTriggerAutoSize(description);
         }
-    }, [bio]);
+    }, [description]);
 
-    useEffect(() => {
-        register('content');
-    }, [register]);
 
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full space-y-8">
+
                 <Tabs defaultValue="content" className="flex-1">
                     <div className="flex justify-between">
                         <TabsList className="mb-4">
                             <TabsTrigger value="content">Content</TabsTrigger>
                             <TabsTrigger disabled value="seo">SEO</TabsTrigger>
                         </TabsList>
-                        <Button variant={"destructive"} type="submit">
+                        <Button type="submit">
                             Submit
                         </Button>
                     </div>
@@ -132,16 +131,18 @@ export default function Add() {
                                 <FormItem className="flex flex-col flex-1">
                                     <FormLabel className="text-lg font-semibold">Content</FormLabel>
                                     <FormControl className="flex-1">
-                                        <NovelEditor
-                                            className=" border rounded-md p-4"
-                                            defaultValue={field.value || undefined}
-                                            onUpdate={(editor: any) => {
-                                                const content = editor?.storage.markdown.getMarkdown();
-                                                setValue('content', content);
-                                            }}
-                                            onDebouncedUpdate={() => {
-                                                form.trigger('content');
-                                            }}
+                                        <MinimalTiptapEditor
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                            throttleDelay={2000}
+                                            className={cn('w-full', {
+                                                'border-destructive focus-within:border-destructive': form.formState.errors.content,
+                                            })}
+                                            editorContentClassName="p-5"
+                                            initialContent={field.value || ''}
+                                            output="text"
+                                            placeholder="Type your content here..."
+                                            editorClassName="focus:outline-none"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -298,5 +299,7 @@ export default function Add() {
             </form>
         </Form>
 
+
     );
 }
+
